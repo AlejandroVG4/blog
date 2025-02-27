@@ -11,7 +11,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from .models import User
 from .serializers import RegistroSerializer, PerfilSerializer, EliminarUsuarioSerializer, ActualizarPerfilSerializer
 
-class ComentarioViewSet(viewsets.ModelViewSet):
+class ComentarioViewSet(generics.ListCreateAPIView):
      queryset = Comentario.objects.all()
      serializer_class = ComentarioSerializer
      permission_classes = [IsAuthenticated]  # Solo usuarios autenticados pueden acceder

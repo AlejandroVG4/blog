@@ -5,7 +5,7 @@ from .models import User
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comentario
-        fields = ['id', 'texto', 'fecha_hora', 'usuario', 'publicacion']
+        fields = ['id', 'texto', 'fecha_hora', 'usuario_id', 'publicacion_id']
 
     def create(self, validated_data):
         """
