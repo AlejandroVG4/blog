@@ -6,7 +6,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import Comentario
-from .Serializer import ComentarioSerializer
+from .serializers import ComentarioSerializer
 
 class ComentarioViewSet(viewsets.ModelViewSet):
      queryset = Comentario.objects.all()
