@@ -1,6 +1,6 @@
 from rest_framework import serializers
-<<<<<<< HEAD
 from .models import Comentario,Publicacion
+from .models import User
 
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,8 +18,7 @@ class PublicacionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Publicacion
         fields = '__all__'
-=======
-from .models import User
+
 
 class RegistroSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, min_length=8)
@@ -66,4 +65,3 @@ class ActualizarPerfilSerializer(serializers.ModelSerializer):
         instance.username = validated_data.get("username", instance.username)
         instance.save()
         return instance
->>>>>>> alejo
