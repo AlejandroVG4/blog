@@ -1,0 +1,32 @@
+[
+    {
+        "model": "usuarios.etiqueta",
+        "fields": {
+            "nombre": "Tecnología"
+        }
+    },
+    {
+        "model": "usuarios.etiqueta",
+        "fields": {
+            "nombre": "Ciencia"
+        }
+    },
+    {
+        "model": "usuarios.etiqueta",
+        "fields": {
+            "nombre": "Salud"
+        }
+    },
+    {
+        "model": "usuarios.etiqueta",
+        "fields": {
+            "nombre": "Entretenimiento"
+        }
+    },
+    {
+        "model": "usuarios.etiqueta",
+        "fields": {
+            "nombre": "Deportes"
+        }
+    }
+]

@@ -1,7 +1,5 @@
-# blog/serializers.py
-
 from rest_framework import serializers
-from .models import Comentario
+from .models import Comentario,Publicacion
 
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -14,3 +12,8 @@ class ComentarioSerializer(serializers.ModelSerializer):
         """
         user = self.context['request'].user
         return Comentario.objects.create(usuario=user, **validated_data)
+
+class PublicacionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Publicacion
+        fields = '__all__'
