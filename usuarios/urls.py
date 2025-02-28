@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import PublicacionCreateView, PublicacionDetailView,ComentarioViewSet, PublicacionListView
+from .views import PublicacionCreateView, PublicacionDetailView,ComentarioViewSet, PublicacionListView, ComentarioListView
 from . import views
 from rest_framework_simplejwt.views import TokenRefreshView
 
@@ -14,5 +14,6 @@ urlpatterns = [
     path('publicaciones/crear/', PublicacionCreateView.as_view(), name='publicacion-list'),
     path('publicaciones/<int:pk>/', PublicacionDetailView.as_view(), name='publicacion-detail'),
     path('comentarios/', ComentarioViewSet.as_view(), name='comentarios'),
+    path('comentarios/crear/', ComentarioListView.as_view(), name='comentarios'),
 ]
 

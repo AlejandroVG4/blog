@@ -40,6 +40,14 @@ class ComentarioViewSet(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class ComentarioListView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Comentario.objects.all()
+    serializer_class = ComentarioSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Comentario.objects.filter(usuario_id=user)
 
 class PublicacionCreateView(APIView):
      permission_classes = [IsAuthenticated]
