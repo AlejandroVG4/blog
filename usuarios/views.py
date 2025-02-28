@@ -1,12 +1,13 @@
 from rest_framework import generics
 from .models import Publicacion
 from .serializers import PublicacionSerializer
-from rest_framework import viewsets
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Comentario
 from .serializers import ComentarioSerializer
 from django.shortcuts import render
 from rest_framework import generics, response, status
+from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated 
 from .models import User
 from .serializers import RegistroSerializer, PerfilSerializer, EliminarUsuarioSerializer, ActualizarPerfilSerializer, CustomTokenObtainPairSerializer
@@ -24,13 +25,32 @@ class ComentarioViewSet(generics.ListCreateAPIView):
           """
           serializer.save(usuario=self.request.user)
 
-class PublicacionListCreateView(generics.ListCreateAPIView):
+class PublicacionCreateView(APIView):
      permission_classes = [IsAuthenticated]
-     queryset = Publicacion.objects.all()
-     serializer_class = PublicacionSerializer
+     
+     def post(self, request):
+         
+         #Extraer los datos de la request
+        texto = request.data.get('texto')
+        etiqueta = request.data.get('etiqueta')
+        usuario= User.objects.get(id=request.user.id)
+        usuario_id = usuario.id
 
-     def perform_create(self, serializer):
-          serializer.save(usuario_id=self.request.user.id)
+        print(usuario_id)
+
+        publicacion_data = {
+            "texto" : texto,
+            "etiqueta" : etiqueta,
+            "usuario_id" : usuario_id
+        }
+
+        serializer = PublicacionSerializer(data=publicacion_data)
+        if serializer.is_valid():
+            serializer.save()
+            publicacion = serializer.data
+            return Response({"mensaje" : "Publicacion creada con exito", "publicacion" : publicacion}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
      queryset = Publicacion.objects.all()

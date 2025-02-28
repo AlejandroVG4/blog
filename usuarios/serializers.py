@@ -17,9 +17,18 @@ class ComentarioSerializer(serializers.ModelSerializer):
         return Comentario.objects.create(usuario=user, **validated_data)
 
 class PublicacionSerializer(serializers.ModelSerializer):
+
+    # Aceptar la llave primaria  de los campos
+    usuario_id = serializers.PrimaryKeyRelatedField(queryset = User.objects.all(), source = 'usuario_id', write_only = True)
     class Meta:
         model = Publicacion
-        fields = '__all__'
+        fields = [
+            'id',
+            'fecha_hora',
+            'usuario_id',
+            'texto',
+            'etiqueta'
+        ]
 
 
 class RegistroSerializer(serializers.ModelSerializer):
