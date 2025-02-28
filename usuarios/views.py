@@ -14,16 +14,32 @@ from .serializers import RegistroSerializer, PerfilSerializer, EliminarUsuarioSe
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 
-class ComentarioViewSet(generics.ListCreateAPIView):
-     queryset = Comentario.objects.all()
-     serializer_class = ComentarioSerializer
-     permission_classes = [IsAuthenticated]  # Solo usuarios autenticados pueden acceder
+class ComentarioViewSet(APIView):
+    permission_classes = [IsAuthenticated]
 
-     def perform_create(self, serializer):
-          """
-          Asigna automáticamente el usuario logueado al comentario.
-          """
-          serializer.save(usuario=self.request.user)
+    def post(self, request):
+         
+        #Extraer los datos de la request
+        texto = request.data.get('texto')
+        usuario= User.objects.get(id=request.user.id)
+        usuario_id = usuario.id
+        publicacion = Publicacion.objects.get(id=request.data.get("publicacion_id"))
+        publicacion_id = publicacion.id
+
+        comentario_data = {
+            "texto" : texto,
+            "usuario_id" : usuario_id,
+            "publicacion_id" : publicacion_id
+        }
+
+        serializer = ComentarioSerializer(data=comentario_data)
+        if serializer.is_valid():
+            serializer.save()
+            comentario = serializer.data
+            return Response({"mensaje" : "Comentario creado con exito", "comentario" : comentario}, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class PublicacionCreateView(APIView):
      permission_classes = [IsAuthenticated]

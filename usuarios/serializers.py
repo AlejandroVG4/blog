@@ -5,19 +5,12 @@ from rest_framework.exceptions import AuthenticationFailed
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class ComentarioSerializer(serializers.ModelSerializer):
+    usuario_id = serializers.PrimaryKeyRelatedField(queryset = User.objects.all(), write_only = True)
     class Meta:
         model = Comentario
         fields = ['id', 'texto', 'fecha_hora', 'usuario_id', 'publicacion_id']
 
-    def create(self, validated_data):
-        """
-        Asigna el usuario logueado automáticamente al comentario cuando se crea.
-        """
-        user = self.context['request'].user
-        return Comentario.objects.create(usuario=user, **validated_data)
-
 class PublicacionSerializer(serializers.ModelSerializer):
-
     # Aceptar la llave primaria  de los campos
     usuario_id = serializers.PrimaryKeyRelatedField(queryset = User.objects.all(), write_only = True)
     class Meta:
