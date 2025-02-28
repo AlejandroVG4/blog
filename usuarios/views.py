@@ -25,12 +25,12 @@ class ComentarioViewSet(generics.ListCreateAPIView):
           serializer.save(usuario=self.request.user)
 
 class PublicacionListCreateView(generics.ListCreateAPIView):
-     permission_classes = [AllowAny]
+     permission_classes = [IsAuthenticated]
      queryset = Publicacion.objects.all()
      serializer_class = PublicacionSerializer
 
      def perform_create(self, serializer):
-          serializer.save(usuario_id=self.request.user)
+          serializer.save(usuario_id=self.request.user.id)
 
 class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
      queryset = Publicacion.objects.all()
