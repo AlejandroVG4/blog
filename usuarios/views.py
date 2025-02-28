@@ -9,7 +9,9 @@ from django.shortcuts import render
 from rest_framework import generics, response, status
 from rest_framework.permissions import AllowAny, IsAuthenticated 
 from .models import User
-from .serializers import RegistroSerializer, PerfilSerializer, EliminarUsuarioSerializer, ActualizarPerfilSerializer
+from .serializers import RegistroSerializer, PerfilSerializer, EliminarUsuarioSerializer, ActualizarPerfilSerializer, CustomTokenObtainPairSerializer
+from rest_framework_simplejwt.views import TokenObtainPairView
+
 
 class ComentarioViewSet(generics.ListCreateAPIView):
      queryset = Comentario.objects.all()
@@ -44,6 +46,9 @@ class RegistroView(generics.CreateAPIView):
      permission_classes = [AllowAny]
      queryset = User.objects.all()
      serializer_class = RegistroSerializer
+     
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
 
 class PerfilView(generics.RetrieveAPIView):
     permission_classes = [IsAuthenticated]
@@ -53,7 +58,6 @@ class PerfilView(generics.RetrieveAPIView):
         return self.request.user
 
 class EliminarUsuarioView(generics.DestroyAPIView):
-    queryset = User.objects.all()
     serializer_class = EliminarUsuarioSerializer
     permission_classes = [IsAuthenticated]
 
@@ -74,7 +78,7 @@ class ActualizarPerfilView(generics.UpdateAPIView):
     serializer_class = ActualizarPerfilSerializer
 
     def get_object(self):
-        return self.request.user  # Obtiene el usuario autenticado
+        return self.request.user
 
     def update(self, request, *args, **kwargs):
         usuario = self.get_object()

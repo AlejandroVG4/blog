@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from .models import Comentario,Publicacion
 from .models import User
+from rest_framework.exceptions import AuthenticationFailed
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 class ComentarioSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,19 +30,20 @@ class RegistroSerializer(serializers.ModelSerializer):
         fields = ['username', 'email', 'password']
 
     def create(self, validated_data):
-        # Extraemos la contraseña de validated_data
         password = validated_data.pop('password')
-
-        # Creamos el usuario utilizando serializer.save() y pasamos los datos validados
         user = super().create(validated_data)
-
-        # Encriptamos la contraseña usando set_password
         user.set_password(password)
-
-        # Guardamos el usuario en la base de datos
         user.save()
 
         return user
+    
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    def validate(self, attrs):
+        try:
+            data = super().validate(attrs)
+        except AuthenticationFailed:
+            raise AuthenticationFailed("Username o password incorrecto")  
+        return data
     
 class PerfilSerializer(serializers.ModelSerializer):
     class Meta:
