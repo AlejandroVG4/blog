@@ -13,7 +13,6 @@ urlpatterns = [
     path('publicaciones/', PublicacionListView.as_view(), name='publicacion-list'),
     path('publicaciones/crear/', PublicacionCreateView.as_view(), name='publicacion-list'),
     path('publicaciones/<int:pk>/', PublicacionDetailView.as_view(), name='publicacion-detail'),
-    path('comentarios/', ComentarioViewSet.as_view(), name='comentarios'),
-    path('comentarios/crear/', ComentarioListView.as_view(), name='comentarios'),
+    path('comentarios/', ComentarioListView.as_view(), name='comentarios'),
+    path('comentarios/crear/', ComentarioViewSet.as_view(), name='comentarios'),
 ]
-
