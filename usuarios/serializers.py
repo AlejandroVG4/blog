@@ -19,7 +19,7 @@ class ComentarioSerializer(serializers.ModelSerializer):
 class PublicacionSerializer(serializers.ModelSerializer):
 
     # Aceptar la llave primaria  de los campos
-    usuario_id = serializers.PrimaryKeyRelatedField(queryset = User.objects.all(), source = 'usuario_id', write_only = True)
+    usuario_id = serializers.PrimaryKeyRelatedField(queryset = User.objects.all(), write_only = True)
     class Meta:
         model = Publicacion
         fields = [

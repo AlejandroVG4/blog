@@ -52,6 +52,15 @@ class PublicacionCreateView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class PublicacionListView(generics.ListCreateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Publicacion.objects.all()
+    serializer_class = PublicacionSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        return Publicacion.objects.filter(usuario_id=user)
+
 class PublicacionDetailView(generics.RetrieveUpdateDestroyAPIView):
      queryset = Publicacion.objects.all()
      serializer_class = PublicacionSerializer
